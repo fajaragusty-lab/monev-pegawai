@@ -1,5 +1,36 @@
 # Sistem Penilaian Kinerja Petugas Penagihan Pajak
 
+## Setup & Running
+
+This application is implemented in **Python/Flask** (SQLAlchemy + SQLite, Flask-Login,
+ReportLab, OpenPyXL). Follow these steps to run it locally:
+
+```
+pip install -r requirements.txt
+python run.py
+```
+
+The first time it runs, `run.py` will automatically:
+1. Create the SQLite database and all tables (`monev.db`).
+2. Seed demo/master data (employees, taxpayers, job types, KPI weights, sample
+   assignments in various stages, etc.) if the database is empty.
+3. Start the development server at **http://localhost:5000**.
+
+### Demo credentials
+
+| Role    | Username   | Password     |
+|---------|------------|--------------|
+| Admin   | `admin`    | `admin123`   |
+| Petugas | `petugas1` | `petugas123` |
+| Petugas | `petugas2` | `petugas123` |
+| Petugas | `petugas3` | `petugas123` |
+
+Log in as **admin** to manage master data, penugasan, verifikasi, KPI,
+ranking, insentif, and laporan. Log in as **petugas** to view assigned tasks
+and submit field execution (pelaksanaan lapangan) reports.
+
+---
+
 ## 1. Login
 
 ```

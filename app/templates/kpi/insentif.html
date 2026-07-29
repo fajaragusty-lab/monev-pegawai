@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Insentif{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Insentif Pegawai</h3>
+</div>
+
+<form method="GET" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select name="periode_id" class="form-select" onchange="this.form.submit()">
+            {% for p in periode_list %}
+            <option value="{{ p.id }}" {% if periode_id == p.id %}selected{% endif %}>{{ p.periode }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-auto">
+        <form method="POST" action="{{ url_for('kpi.hitung_insentif') }}" class="d-inline">
+            <input type="hidden" name="periode_id" value="{{ periode_id }}">
+            <button type="submit" class="btn btn-primary" {% if not periode_id %}disabled{% endif %}>
+                <i class="bi bi-calculator"></i> Hitung Insentif
+            </button>
+        </form>
+    </div>
+</form>
+
+<div class="alert alert-info small">
+    Insentif dihitung berdasarkan proporsi nilai KPI pegawai terhadap total nilai KPI seluruh pegawai pada periode
+    tersebut, dikalikan dengan dana insentif (mingguan/bulanan) yang ditetapkan pada Setting Insentif.
+</div>
+
+<div class="card card-stat">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr><th>Rank</th><th>Nama Pegawai</th><th>Nilai KPI</th><th>Proporsi</th><th>Insentif Mingguan</th><th>Insentif Bulanan</th></tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.pegawai.nama }}</td>
+                    <td>{{ item.nilai_kpi }}</td>
+                    <td>{{ item.proporsi }}%</td>
+                    <td>{{ item.insentif_mingguan | rupiah }}</td>
+                    <td>{{ item.insentif_bulanan | rupiah }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted py-4">Belum ada data insentif. Klik "Hitung Insentif".</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

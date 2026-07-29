@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Laksanakan Tugas{% endblock %}
+{% block content %}
+<h3 class="mb-4">Laksanakan Tugas: {{ item.wajib_pajak.nama }}</h3>
+
+<div class="card card-stat p-4" style="max-width: 700px;">
+    <form method="POST" enctype="multipart/form-data">
+        <h6 class="text-muted">1. Ambil GPS Lokasi</h6>
+        <div class="row">
+            <div class="col-6 mb-3">
+                <label class="form-label">Latitude</label>
+                <input type="number" step="any" name="latitude" id="latitude" class="form-control" required>
+            </div>
+            <div class="col-6 mb-3">
+                <label class="form-label">Longitude</label>
+                <input type="number" step="any" name="longitude" id="longitude" class="form-control" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <button type="button" class="btn btn-sm btn-outline-primary" onclick="ambilGPS()">
+                <i class="bi bi-geo-alt"></i> Ambil GPS Otomatis (Browser)
+            </button>
+            <span id="gps-status" class="small text-muted ms-2"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Jarak dari titik target (meter, opsional)</label>
+            <input type="number" step="any" name="jarak_gps" class="form-control" value="0">
+        </div>
+
+        <hr>
+        <h6 class="text-muted">2. Foto Lokasi</h6>
+        <div class="mb-3">
+            <input type="file" name="foto" class="form-control" accept="image/*">
+        </div>
+
+        <hr>
+        <h6 class="text-muted">3. Input Hasil</h6>
+        <div class="mb-3">
+            <label class="form-label">Keterangan Hasil</label>
+            <textarea name="hasil_keterangan" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="row">
+            <div class="col-6 mb-3">
+                <label class="form-label">Realisasi Jumlah</label>
+                <input type="number" name="realisasi_jumlah" class="form-control" value="0" required>
+            </div>
+            <div class="col-6 mb-3">
+                <label class="form-label">Realisasi Nominal (Rp)</label>
+                <input type="number" step="0.01" name="realisasi_nominal" class="form-control" value="0" required>
+            </div>
+        </div>
+
+        <hr>
+        <h6 class="text-muted">4. Upload Bukti</h6>
+        <div class="mb-3">
+            <input type="file" name="bukti" class="form-control">
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" name="action" value="draft" class="btn btn-outline-secondary">Simpan Draft</button>
+            <button type="submit" name="action" value="submit" class="btn btn-primary">Submit untuk Verifikasi</button>
+            <a href="{{ url_for('lapangan.detail', penugasan_id=item.id) }}" class="btn btn-link">Batal</a>
+        </div>
+    </form>
+</div>
+
+<script>
+function ambilGPS() {
+    const status = document.getElementById('gps-status');
+    if (!navigator.geolocation) {
+        status.textContent = 'Geolocation tidak didukung browser ini.';
+        return;
+    }
+    status.textContent = 'Mengambil lokasi...';
+    navigator.geolocation.getCurrentPosition(function(pos) {
+        document.getElementById('latitude').value = pos.coords.latitude;
+        document.getElementById('longitude').value = pos.coords.longitude;
+        status.textContent = 'Lokasi berhasil diambil.';
+    }, function(err) {
+        status.textContent = 'Gagal mengambil lokasi: ' + err.message;
+    });
+}
+</script>
+{% endblock %}

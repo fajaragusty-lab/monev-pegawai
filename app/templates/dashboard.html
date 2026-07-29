@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h3 class="mb-4">Dashboard</h3>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3">
+            <div class="text-muted small">Total Penugasan</div>
+            <div class="fs-3 fw-bold">{{ stats.total_penugasan }}</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3">
+            <div class="text-muted small">Penugasan Aktif</div>
+            <div class="fs-3 fw-bold text-primary">{{ stats.penugasan_active }}</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3">
+            <div class="text-muted small">Pending Verifikasi</div>
+            <div class="fs-3 fw-bold text-warning">{{ stats.pending_verifikasi }}</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3">
+            <div class="text-muted small">Penugasan Selesai</div>
+            <div class="fs-3 fw-bold text-success">{{ stats.penugasan_completed }}</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3">
+            <div class="text-muted small">Total Pegawai Aktif</div>
+            <div class="fs-3 fw-bold">{{ stats.total_pegawai }}</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3">
+            <div class="text-muted small">Total Wajib Pajak</div>
+            <div class="fs-3 fw-bold">{{ stats.total_wajib_pajak }}</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3">
+            <div class="text-muted small">Data KPI Terhitung</div>
+            <div class="fs-3 fw-bold">{{ stats.total_kpi }}</div>
+        </div>
+    </div>
+    {% if my_stats %}
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3">
+            <div class="text-muted small">Tugas Aktif Saya</div>
+            <div class="fs-3 fw-bold text-primary">{{ my_stats.tugas_aktif }}</div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<h5 class="mb-3">Navigasi Modul</h5>
+<div class="row g-3">
+    {% if current_user.is_admin() %}
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('master.index') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-database fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Master Data</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('penugasan.index') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-clipboard-check fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Penugasan</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('verifikasi.index') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-patch-check fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Verifikasi</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('kpi.index') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-graph-up-arrow fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Perhitungan KPI</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('kpi.ranking') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-trophy fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Ranking Pegawai</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('kpi.insentif') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-cash-coin fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Insentif</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.index') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-file-earmark-bar-graph fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Laporan</div>
+            </div>
+        </a>
+    </div>
+    {% else %}
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('lapangan.index') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-geo-alt fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Pelaksanaan Lapangan</div>
+            </div>
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

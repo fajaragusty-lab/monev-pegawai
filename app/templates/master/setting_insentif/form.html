@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Setting Insentif{% endblock %}
+{% block content %}
+<h3 class="mb-4">{{ 'Edit' if item else 'Tambah' }} Setting Insentif</h3>
+<div class="card card-stat p-4" style="max-width: 600px;">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Periode</label>
+            <input type="text" name="periode" class="form-control" value="{{ item.periode if item else '' }}" placeholder="YYYY-MM" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Dana Mingguan (Rp)</label>
+            <input type="number" step="0.01" min="0" name="dana_mingguan" class="form-control" value="{{ item.dana_mingguan if item else 0 }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Dana Bulanan (Rp)</label>
+            <input type="number" step="0.01" min="0" name="dana_bulanan" class="form-control" value="{{ item.dana_bulanan if item else 0 }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ url_for('master.setting_insentif_list') }}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

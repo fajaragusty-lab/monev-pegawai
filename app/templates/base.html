@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistem Penilaian Kinerja Petugas Penagihan Pajak{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f6f9; }
+        #sidebar {
+            min-height: 100vh;
+            background-color: #1e2a38;
+            color: #fff;
+        }
+        #sidebar a {
+            color: #cfd8e3;
+            text-decoration: none;
+        }
+        #sidebar a.active, #sidebar a:hover {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+        #sidebar .nav-link { border-radius: 6px; margin-bottom: 2px; padding: 0.55rem 0.9rem; }
+        .navbar-top { background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .card-stat { border: none; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+        .brand-title { font-weight: 600; font-size: 1.05rem; }
+        .content-wrapper { padding: 1.5rem; }
+        table.table thead th { background-color: #eef2f7; }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+{% if current_user.is_authenticated %}
+<div class="d-flex">
+    <nav id="sidebar" class="p-3" style="width: 250px; flex-shrink: 0;">
+        <div class="brand-title text-white mb-4 px-2">
+            <i class="bi bi-shield-check"></i> Monev Pajak
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+            </li>
+            {% if current_user.is_admin() %}
+            <li class="nav-item">
+                <a class="nav-link {% if request.blueprint == 'master' %}active{% endif %}" href="{{ url_for('master.index') }}">
+                    <i class="bi bi-database me-2"></i> Master Data
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.blueprint == 'penugasan' %}active{% endif %}" href="{{ url_for('penugasan.index') }}">
+                    <i class="bi bi-clipboard-check me-2"></i> Penugasan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.blueprint == 'verifikasi' %}active{% endif %}" href="{{ url_for('verifikasi.index') }}">
+                    <i class="bi bi-patch-check me-2"></i> Verifikasi
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.blueprint == 'kpi' and request.endpoint == 'kpi.index' %}active{% endif %}" href="{{ url_for('kpi.index') }}">
+                    <i class="bi bi-graph-up-arrow me-2"></i> Perhitungan KPI
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'kpi.ranking' %}active{% endif %}" href="{{ url_for('kpi.ranking') }}">
+                    <i class="bi bi-trophy me-2"></i> Ranking Pegawai
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'kpi.insentif' %}active{% endif %}" href="{{ url_for('kpi.insentif') }}">
+                    <i class="bi bi-cash-coin me-2"></i> Insentif
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.blueprint == 'laporan' %}active{% endif %}" href="{{ url_for('laporan.index') }}">
+                    <i class="bi bi-file-earmark-bar-graph me-2"></i> Laporan
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link {% if request.blueprint == 'lapangan' %}active{% endif %}" href="{{ url_for('lapangan.index') }}">
+                    <i class="bi bi-geo-alt me-2"></i> Pelaksanaan Lapangan
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+        <hr class="text-secondary">
+        <a class="nav-link" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
+    </nav>
+    <div class="flex-grow-1">
+        <nav class="navbar navbar-expand navbar-top px-4 py-2">
+            <span class="navbar-text ms-auto">
+                <i class="bi bi-person-circle me-1"></i>
+                {{ current_user.nama_lengkap }}
+                <span class="badge bg-{{ 'primary' if current_user.is_admin() else 'secondary' }} ms-1">
+                    {{ 'Admin' if current_user.is_admin() else 'Petugas' }}
+                </span>
+            </span>
+        </nav>
+        <div class="content-wrapper">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% else %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-3">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    {% block guest_content %}{% endblock %}
+{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

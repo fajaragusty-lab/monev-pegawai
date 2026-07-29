@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Master Data{% endblock %}
+{% block content %}
+<h3 class="mb-4">Master Data</h3>
+<div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('master.pegawai_list') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-person-badge fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Data Pegawai</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('master.wajib_pajak_list') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-person-lines-fill fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Data Wajib Pajak</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('master.jenis_pekerjaan_list') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-briefcase fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Jenis Pekerjaan</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('master.bobot_kpi_list') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-percent fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Bobot KPI</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('master.setting_insentif_list') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-cash-stack fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Setting Insentif</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('master.wilayah_list') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-map fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Wilayah</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('master.target_periode_list') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-calendar-range fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Target Periode</div>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

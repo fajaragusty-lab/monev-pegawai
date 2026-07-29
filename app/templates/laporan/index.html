@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Laporan{% endblock %}
+{% block content %}
+<h3 class="mb-4">Laporan</h3>
+<div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.dashboard_monitoring') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-speedometer fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Dashboard Monitoring</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.laporan_kpi') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-graph-up fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Laporan KPI</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.laporan_penagihan') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-cash fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Laporan Penagihan</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.laporan_gps') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-geo fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Laporan GPS</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.laporan_insentif') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-cash-coin fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Laporan Insentif</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.grafik') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-bar-chart fs-2 text-primary"></i>
+                <div class="mt-2 fw-semibold">Grafik KPI</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.export_pdf') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-file-earmark-pdf fs-2 text-danger"></i>
+                <div class="mt-2 fw-semibold">Export PDF</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <a href="{{ url_for('laporan.export_excel') }}" class="text-decoration-none">
+            <div class="card card-stat p-3 text-center h-100">
+                <i class="bi bi-file-earmark-excel fs-2 text-success"></i>
+                <div class="mt-2 fw-semibold">Export Excel</div>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

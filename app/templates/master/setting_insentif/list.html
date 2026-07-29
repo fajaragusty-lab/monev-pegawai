@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Setting Insentif{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Setting Insentif</h3>
+    <a href="{{ url_for('master.setting_insentif_create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Tambah Setting</a>
+</div>
+<div class="card card-stat">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr><th>#</th><th>Periode</th><th>Dana Mingguan</th><th>Dana Bulanan</th><th class="text-end">Aksi</th></tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.periode }}</td>
+                    <td>{{ item.dana_mingguan | rupiah }}</td>
+                    <td>{{ item.dana_bulanan | rupiah }}</td>
+                    <td class="text-end">
+                        <a href="{{ url_for('master.setting_insentif_edit', item_id=item.id) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+                        <form action="{{ url_for('master.setting_insentif_delete', item_id=item.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus setting ini?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="text-center text-muted py-4">Belum ada setting insentif.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

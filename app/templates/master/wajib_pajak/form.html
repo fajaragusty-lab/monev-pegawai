@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Wajib Pajak{% endblock %}
+{% block content %}
+<h3 class="mb-4">{{ 'Edit' if item else 'Tambah' }} Wajib Pajak</h3>
+<div class="card card-stat p-4" style="max-width: 700px;">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">NPWP</label>
+            <input type="text" name="npwp" class="form-control" value="{{ item.npwp if item else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nama Wajib Pajak</label>
+            <input type="text" name="nama" class="form-control" value="{{ item.nama if item else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Alamat</label>
+            <textarea name="alamat" class="form-control" rows="2">{{ item.alamat if item else '' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Jenis Pajak</label>
+            <input type="text" name="jenis_pajak" class="form-control" value="{{ item.jenis_pajak if item else '' }}" placeholder="mis. PPh, PPN, PBB">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Wilayah</label>
+            <select name="wilayah_id" class="form-select">
+                <option value="">- Pilih Wilayah -</option>
+                {% for w in wilayah_list %}
+                <option value="{{ w.id }}" {% if item and item.wilayah_id == w.id %}selected{% endif %}>{{ w.nama_wilayah }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ url_for('master.wajib_pajak_list') }}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

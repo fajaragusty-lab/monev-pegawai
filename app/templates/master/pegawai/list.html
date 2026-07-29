@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Data Pegawai{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Data Pegawai</h3>
+    <a href="{{ url_for('master.pegawai_create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Tambah Pegawai</a>
+</div>
+<div class="card card-stat">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr><th>#</th><th>NIP</th><th>Nama</th><th>Jabatan</th><th>Wilayah</th><th>Akun</th><th>Status</th><th class="text-end">Aksi</th></tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.nip }}</td>
+                    <td>{{ item.nama }}</td>
+                    <td>{{ item.jabatan }}</td>
+                    <td>{{ item.wilayah.nama_wilayah if item.wilayah else '-' }}</td>
+                    <td>{{ item.user.username if item.user else '-' }}</td>
+                    <td>
+                        {% if item.aktif %}<span class="badge bg-success">Aktif</span>
+                        {% else %}<span class="badge bg-secondary">Nonaktif</span>{% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('master.pegawai_edit', item_id=item.id) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+                        <form action="{{ url_for('master.pegawai_delete', item_id=item.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus pegawai ini?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="8" class="text-center text-muted py-4">Belum ada data pegawai.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

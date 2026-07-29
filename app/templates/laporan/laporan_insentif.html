@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Laporan Insentif{% endblock %}
+{% block content %}
+<h3 class="mb-4">Laporan Insentif</h3>
+
+<form method="GET" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select name="periode_id" class="form-select" onchange="this.form.submit()">
+            {% for p in periode_list %}
+            <option value="{{ p.id }}" {% if periode_id == p.id %}selected{% endif %}>{{ p.periode }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+
+<div class="card card-stat">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr><th>Rank</th><th>Nama Pegawai</th><th>Nilai KPI</th><th>Proporsi</th><th>Insentif Mingguan</th><th>Insentif Bulanan</th></tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.pegawai.nama }}</td>
+                    <td>{{ item.nilai_kpi }}</td>
+                    <td>{{ item.proporsi }}%</td>
+                    <td>{{ item.insentif_mingguan | rupiah }}</td>
+                    <td>{{ item.insentif_bulanan | rupiah }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted py-4">Belum ada data insentif untuk periode ini.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

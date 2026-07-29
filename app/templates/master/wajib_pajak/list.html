@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Data Wajib Pajak{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Data Wajib Pajak</h3>
+    <a href="{{ url_for('master.wajib_pajak_create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Tambah Wajib Pajak</a>
+</div>
+<div class="card card-stat">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr><th>#</th><th>NPWP</th><th>Nama</th><th>Jenis Pajak</th><th>Wilayah</th><th class="text-end">Aksi</th></tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.npwp }}</td>
+                    <td>{{ item.nama }}</td>
+                    <td>{{ item.jenis_pajak or '-' }}</td>
+                    <td>{{ item.wilayah.nama_wilayah if item.wilayah else '-' }}</td>
+                    <td class="text-end">
+                        <a href="{{ url_for('master.wajib_pajak_edit', item_id=item.id) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+                        <form action="{{ url_for('master.wajib_pajak_delete', item_id=item.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus wajib pajak ini?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted py-4">Belum ada data wajib pajak.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

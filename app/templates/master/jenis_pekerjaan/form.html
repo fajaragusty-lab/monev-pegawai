@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Jenis Pekerjaan{% endblock %}
+{% block content %}
+<h3 class="mb-4">{{ 'Edit' if item else 'Tambah' }} Jenis Pekerjaan</h3>
+<div class="card card-stat p-4" style="max-width: 600px;">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Nama Pekerjaan</label>
+            <input type="text" name="nama" class="form-control" value="{{ item.nama if item else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Deskripsi</label>
+            <textarea name="deskripsi" class="form-control" rows="3">{{ item.deskripsi if item else '' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Satuan</label>
+            <input type="text" name="satuan" class="form-control" value="{{ item.satuan if item else '' }}" placeholder="mis. kasus, kunjungan">
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ url_for('master.jenis_pekerjaan_list') }}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Wilayah{% endblock %}
+{% block content %}
+<h3 class="mb-4">{{ 'Edit' if item else 'Tambah' }} Wilayah</h3>
+<div class="card card-stat p-4" style="max-width: 600px;">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Kode Wilayah</label>
+            <input type="text" name="kode" class="form-control" value="{{ item.kode if item else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nama Wilayah</label>
+            <input type="text" name="nama_wilayah" class="form-control" value="{{ item.nama_wilayah if item else '' }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ url_for('master.wilayah_list') }}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

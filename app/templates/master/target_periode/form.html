@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Target Periode{% endblock %}
+{% block content %}
+<h3 class="mb-4">{{ 'Edit' if item else 'Tambah' }} Target Periode</h3>
+<div class="card card-stat p-4" style="max-width: 600px;">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Periode (kode unik)</label>
+            <input type="text" name="periode" class="form-control" value="{{ item.periode if item else '' }}" placeholder="YYYY-MM" required>
+        </div>
+        <div class="row">
+            <div class="col-6 mb-3">
+                <label class="form-label">Tahun</label>
+                <input type="number" name="tahun" class="form-control" value="{{ item.tahun if item else '' }}" required>
+            </div>
+            <div class="col-6 mb-3">
+                <label class="form-label">Bulan</label>
+                <input type="number" min="1" max="12" name="bulan" class="form-control" value="{{ item.bulan if item else '' }}" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Target Jumlah</label>
+            <input type="number" name="target_jumlah" class="form-control" value="{{ item.target_jumlah if item else 0 }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Target Nominal (Rp)</label>
+            <input type="number" step="0.01" name="target_nominal" class="form-control" value="{{ item.target_nominal if item else 0 }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ url_for('master.target_periode_list') }}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Detail Tugas{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Detail Tugas {{ item.nomor_penugasan }}</h3>
+    <a href="{{ url_for('lapangan.index') }}" class="btn btn-secondary">Kembali</a>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card card-stat p-3">
+            <h6 class="text-muted">Informasi Penugasan</h6>
+            <table class="table table-borderless mb-0">
+                <tr><th style="width:160px;">Wajib Pajak</th><td>{{ item.wajib_pajak.nama }}</td></tr>
+                <tr><th>NPWP</th><td>{{ item.wajib_pajak.npwp }}</td></tr>
+                <tr><th>Alamat</th><td>{{ item.wajib_pajak.alamat or '-' }}</td></tr>
+                <tr><th>Jenis Pekerjaan</th><td>{{ item.jenis_pekerjaan.nama }}</td></tr>
+                <tr><th>Target Jumlah</th><td>{{ item.target_jumlah }}</td></tr>
+                <tr><th>Target Nominal</th><td>{{ item.target_nominal | rupiah }}</td></tr>
+                <tr><th>Deadline</th><td>{{ item.deadline | datefmt }}</td></tr>
+                <tr><th>Status</th><td><span class="badge bg-primary">{{ item.status }}</span></td></tr>
+            </table>
+            {% if item.status == 'active' %}
+            <a href="{{ url_for('lapangan.laksanakan', penugasan_id=item.id) }}" class="btn btn-primary mt-2">
+                <i class="bi bi-geo-alt"></i> Laksanakan Tugas
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-stat p-3">
+            <h6 class="text-muted">Riwayat Laporan Lapangan</h6>
+            {% if item.pelaksanaan_list %}
+            {% for pl in item.pelaksanaan_list %}
+            <div class="border rounded p-2 mb-2">
+                <div class="d-flex justify-content-between">
+                    <strong>{{ pl.tanggal_pelaksanaan | datefmt }}</strong>
+                    <span class="badge bg-{{ 'success' if pl.status == 'submitted' else 'secondary' }}">{{ pl.status }}</span>
+                </div>
+                <div class="small text-muted">GPS: {{ pl.latitude }}, {{ pl.longitude }} ({{ 'Valid' if pl.gps_valid else 'Tidak Valid' }})</div>
+                <div class="small">Realisasi: {{ pl.realisasi_jumlah }} / {{ pl.realisasi_nominal | rupiah }}</div>
+                {% if pl.verifikasi %}
+                <div class="small mt-1">
+                    Verifikasi:
+                    <span class="badge bg-{{ 'success' if pl.verifikasi.status == 'approved' else ('danger' if pl.verifikasi.status == 'rejected' else 'warning') }}">
+                        {{ pl.verifikasi.status }}
+                    </span>
+                    {% if pl.verifikasi.catatan_verifikasi %}
+                    <div class="text-muted">Catatan: {{ pl.verifikasi.catatan_verifikasi }}</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-muted">Belum ada laporan pelaksanaan.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Laporan Penagihan{% endblock %}
+{% block content %}
+<h3 class="mb-4">Laporan Penagihan</h3>
+
+<form method="GET" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select name="status" class="form-select" onchange="this.form.submit()">
+            <option value="">Semua Status</option>
+            {% for s in ['draft', 'active', 'completed', 'cancelled'] %}
+            <option value="{{ s }}" {% if current_status == s %}selected{% endif %}>{{ s|capitalize }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+
+<div class="card card-stat">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr><th>Nomor</th><th>Pegawai</th><th>Wajib Pajak</th><th>Jenis Pekerjaan</th><th>Target Jumlah</th><th>Target Nominal</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.nomor_penugasan }}</td>
+                    <td>{{ item.pegawai.nama }}</td>
+                    <td>{{ item.wajib_pajak.nama }}</td>
+                    <td>{{ item.jenis_pekerjaan.nama }}</td>
+                    <td>{{ item.target_jumlah }}</td>
+                    <td>{{ item.target_nominal | rupiah }}</td>
+                    <td>
+                        {% set badge_map = {'draft': 'secondary', 'active': 'primary', 'completed': 'success', 'cancelled': 'danger'} %}
+                        <span class="badge bg-{{ badge_map.get(item.status, 'secondary') }}">{{ item.status }}</span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" class="text-center text-muted py-4">Belum ada data penagihan.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

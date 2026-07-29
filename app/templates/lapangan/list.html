@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Pelaksanaan Lapangan{% endblock %}
+{% block content %}
+<h3 class="mb-4">Tugas Saya</h3>
+<div class="card card-stat">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr>
+                    <th>Nomor</th><th>Wajib Pajak</th><th>Jenis Pekerjaan</th><th>Deadline</th><th>Status</th><th class="text-end">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.nomor_penugasan }}</td>
+                    <td>{{ item.wajib_pajak.nama }}</td>
+                    <td>{{ item.jenis_pekerjaan.nama }}</td>
+                    <td>{{ item.deadline | datefmt }}</td>
+                    <td>
+                        {% set badge_map = {'active': 'primary', 'completed': 'success'} %}
+                        <span class="badge bg-{{ badge_map.get(item.status, 'secondary') }}">{{ item.status }}</span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('lapangan.detail', penugasan_id=item.id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i> Detail</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted py-4">Belum ada penugasan untuk anda.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

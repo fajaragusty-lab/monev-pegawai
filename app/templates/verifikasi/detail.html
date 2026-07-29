@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Detail Verifikasi{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Detail Pelaksanaan Lapangan</h3>
+    <a href="{{ url_for('verifikasi.index') }}" class="btn btn-secondary">Kembali</a>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card card-stat p-3">
+            <h6 class="text-muted">Informasi Penugasan</h6>
+            <table class="table table-borderless mb-0">
+                <tr><th style="width:180px;">Nomor Penugasan</th><td>{{ item.penugasan.nomor_penugasan }}</td></tr>
+                <tr><th>Pegawai</th><td>{{ item.penugasan.pegawai.nama }}</td></tr>
+                <tr><th>Wajib Pajak</th><td>{{ item.penugasan.wajib_pajak.nama }}</td></tr>
+                <tr><th>Deadline</th><td>{{ item.penugasan.deadline | datefmt }}</td></tr>
+                <tr><th>Submitted At</th><td>{{ item.submitted_at | datefmt }}</td></tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-stat p-3">
+            <h6 class="text-muted">Hasil Pelaksanaan</h6>
+            <table class="table table-borderless mb-0">
+                <tr><th style="width:180px;">GPS</th><td>{{ item.latitude }}, {{ item.longitude }} ({{ 'Valid' if item.gps_valid else 'Tidak Valid' }})</td></tr>
+                <tr><th>Jarak GPS</th><td>{{ item.jarak_gps }} m</td></tr>
+                <tr><th>Foto</th><td>
+                    {% if item.foto_url %}
+                    <a href="{{ url_for('uploaded_file', filename=item.foto_url) }}" target="_blank">Lihat Foto ({{ item.foto_url }})</a>
+                    {% else %}-{% endif %}
+                </td></tr>
+                <tr><th>Keterangan Hasil</th><td>{{ item.hasil_keterangan or '-' }}</td></tr>
+                <tr><th>Realisasi Jumlah</th><td>{{ item.realisasi_jumlah }}</td></tr>
+                <tr><th>Realisasi Nominal</th><td>{{ item.realisasi_nominal | rupiah }}</td></tr>
+                <tr><th>Bukti</th><td>
+                    {% if item.bukti_url %}
+                    <a href="{{ url_for('uploaded_file', filename=item.bukti_url) }}" target="_blank">Lihat Bukti ({{ item.bukti_url }})</a>
+                    {% else %}-{% endif %}
+                </td></tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card card-stat p-3 mt-3">
+    <h6 class="text-muted">Proses Verifikasi</h6>
+    {% if item.verifikasi and item.verifikasi.status != 'pending' %}
+    <p>
+        Status:
+        <span class="badge bg-{{ 'success' if item.verifikasi.status == 'approved' else 'danger' }}">{{ item.verifikasi.status }}</span>
+        oleh {{ item.verifikasi.admin.nama_lengkap if item.verifikasi.admin else '-' }} pada {{ item.verifikasi.tanggal_verifikasi | datefmt }}
+    </p>
+    <p class="text-muted">Catatan: {{ item.verifikasi.catatan_verifikasi or '-' }}</p>
+    {% else %}
+    <form method="POST" action="{{ url_for('verifikasi.proses', pelaksanaan_id=item.id) }}">
+        <div class="mb-3">
+            <label class="form-label">Catatan Verifikasi</label>
+            <textarea name="catatan_verifikasi" class="form-control" rows="2"></textarea>
+        </div>
+        <button type="submit" name="keputusan" value="approved" class="btn btn-success"><i class="bi bi-check-lg"></i> Setujui</button>
+        <button type="submit" name="keputusan" value="rejected" class="btn btn-danger"><i class="bi bi-x-lg"></i> Tolak</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

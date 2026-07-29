@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Pegawai{% endblock %}
+{% block content %}
+<h3 class="mb-4">{{ 'Edit' if item else 'Tambah' }} Pegawai</h3>
+<div class="card card-stat p-4" style="max-width: 700px;">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">NIP</label>
+            <input type="text" name="nip" class="form-control" value="{{ item.nip if item else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nama Lengkap</label>
+            <input type="text" name="nama" class="form-control" value="{{ item.nama if item else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Jabatan</label>
+            <input type="text" name="jabatan" class="form-control" value="{{ item.jabatan if item else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Wilayah</label>
+            <select name="wilayah_id" class="form-select">
+                <option value="">- Pilih Wilayah -</option>
+                {% for w in wilayah_list %}
+                <option value="{{ w.id }}" {% if item and item.wilayah_id == w.id %}selected{% endif %}>{{ w.nama_wilayah }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" name="aktif" class="form-check-input" id="aktif" {% if not item or item.aktif %}checked{% endif %}>
+            <label class="form-check-label" for="aktif">Aktif</label>
+        </div>
+        {% if not item %}
+        <hr>
+        <div class="form-check mb-3">
+            <input type="checkbox" name="create_account" class="form-check-input" id="create_account" onclick="document.getElementById('accountFields').classList.toggle('d-none')">
+            <label class="form-check-label" for="create_account">Buat akun login petugas sekaligus</label>
+        </div>
+        <div id="accountFields" class="d-none">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Default: petugas123">
+            </div>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ url_for('master.pegawai_list') }}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

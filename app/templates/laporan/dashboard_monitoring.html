@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Dashboard Monitoring{% endblock %}
+{% block content %}
+<h3 class="mb-4">Dashboard Monitoring</h3>
+<div class="row g-3">
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Total Penugasan</div><div class="fs-3 fw-bold">{{ stats.total_penugasan }}</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Draft</div><div class="fs-3 fw-bold text-secondary">{{ stats.draft }}</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Aktif</div><div class="fs-3 fw-bold text-primary">{{ stats.active }}</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Selesai</div><div class="fs-3 fw-bold text-success">{{ stats.completed }}</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Dibatalkan</div><div class="fs-3 fw-bold text-danger">{{ stats.cancelled }}</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Pending Verifikasi</div><div class="fs-3 fw-bold text-warning">{{ stats.pending_verifikasi }}</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Disetujui</div><div class="fs-3 fw-bold text-success">{{ stats.approved }}</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Ditolak</div><div class="fs-3 fw-bold text-danger">{{ stats.rejected }}</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-stat p-3"><div class="text-muted small">Total Pegawai Aktif</div><div class="fs-3 fw-bold">{{ stats.total_pegawai }}</div></div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Laporan GPS{% endblock %}
+{% block content %}
+<h3 class="mb-4">Laporan GPS</h3>
+<div class="card card-stat">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr><th>Tanggal</th><th>Pegawai</th><th>Wajib Pajak</th><th>Latitude</th><th>Longitude</th><th>Jarak (m)</th><th>Status GPS</th></tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.tanggal_pelaksanaan | datefmt }}</td>
+                    <td>{{ item.penugasan.pegawai.nama }}</td>
+                    <td>{{ item.penugasan.wajib_pajak.nama }}</td>
+                    <td>{{ item.latitude }}</td>
+                    <td>{{ item.longitude }}</td>
+                    <td>{{ item.jarak_gps }}</td>
+                    <td>
+                        {% if item.gps_valid %}<span class="badge bg-success">Valid</span>
+                        {% else %}<span class="badge bg-danger">Tidak Valid</span>{% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" class="text-center text-muted py-4">Belum ada data GPS.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
