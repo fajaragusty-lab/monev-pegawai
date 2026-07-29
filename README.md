@@ -1,3 +1,74 @@
+# Setup Native PHP (XAMPP + PHP 8.2)
+
+## Jalankan aplikasi
+
+1. Buat database dan tabel:
+   - Import `/sql/schema.sql` ke MySQL (phpMyAdmin atau CLI).
+2. Isi data dummy dashboard (opsional tapi direkomendasikan untuk testing cepat):
+   - Import `/sql/seed_dummy_dashboard.sql`.
+3. Jalankan dari XAMPP (Apache + MySQL aktif), lalu akses:
+   - `http://localhost/monev-pegawai/public/index.php`
+
+> Konfigurasi DB dibaca dari environment variable (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`). Default: `127.0.0.1:3306`, DB `monev_pegawai`, user `root`, password kosong.
+
+## Patch Follow-up (GPS, Dashboard, KPI)
+
+### 1) GPS auto capture (petugas input hasil)
+
+- Form `public/input_hasil.php` otomatis meminta geolocation browser (`navigator.geolocation.getCurrentPosition`) saat halaman dibuka.
+- Latitude/longitude dibuat **readonly** dan diisi otomatis (tanpa input manual).
+- Tombol submit dikunci sampai koordinat valid didapat.
+- Jika izin lokasi ditolak/tidak tersedia, UI menampilkan pesan jelas dan submit diblokir.
+- Server-side di `public/save_hasil.php` menolak submit jika latitude/longitude kosong atau di luar rentang valid.
+- Metadata capture yang disimpan: `captured_at`, `accuracy` (jika tersedia), `user_agent`, `ip_address`.
+
+### 2) Dashboard monitoring + data dummy
+
+- Dashboard `public/index.php` menampilkan ringkasan, tabel monitoring, dan ranking KPI dari query join data tugas/hasil/KPI.
+- Query sudah disusun agar record existing tetap muncul (LEFT JOIN untuk hasil/KPI).
+- Jika data kosong, komponen menampilkan fallback text (tidak error/blank).
+- Untuk langsung uji dashboard berisi data, import seed: `/sql/seed_dummy_dashboard.sql`.
+
+### 3) KPI calculation process
+
+Implementasi KPI ada di `src/kpi.php` dan dipanggil saat simpan hasil (`public/save_hasil.php`) serta rekalkulasi massal (`public/recalculate_kpi.php`).
+
+Formula final score (0-100):
+
+- `final_score = sum(component_score * weight) / sum(weight)`
+
+Komponen dan normalisasi:
+
+- `target_achievement = min(realisasi / target * 100, 100)`
+- `collection_success = min(penagihan_berhasil / realisasi * 100, 100)`
+- `verification_rate = 100 jika verval_complete, selain itu 0`
+- `gps_validity = 100 jika gps_valid, selain itu 0`
+- `timeliness = 100 jika on_time, selain itu 0`
+- `document_completeness = clamp(nilai, 0..100)`
+
+Default bobot (di tabel `kpi_weights`):
+
+- target_achievement: 0.25
+- collection_success: 0.25
+- verification_rate: 0.15
+- gps_validity: 0.10
+- timeliness: 0.10
+- document_completeness: 0.15
+
+Kategori KPI:
+
+- `A (Sangat Baik)` >= 85
+- `B (Baik)` >= 70
+- `C (Cukup)` >= 55
+- `D (Perlu Pembinaan)` < 55
+
+Hasil KPI tampil di:
+
+- Dashboard monitoring (`public/index.php`) pada kolom skor/kategori
+- Ranking KPI petugas (`public/index.php`)
+
+---
+
 # Sistem Penilaian Kinerja Petugas Penagihan Pajak
 
 ## 1. Login
