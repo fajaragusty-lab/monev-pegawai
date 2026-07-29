@@ -1,0 +1,121 @@
+:root {
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --primary: #0f62fe;
+    --success: #15803d;
+    --warning: #b45309;
+    --danger: #b91c1c;
+    --border: #dbe3ef;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+    width: 250px;
+    background: #111827;
+    color: #fff;
+    padding: 24px 16px;
+}
+.sidebar h1 { font-size: 18px; margin: 0 0 16px; }
+.sidebar a {
+    color: #d1d5db;
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+}
+.sidebar a:hover, .sidebar a.active { background: #1f2937; color: #fff; text-decoration: none; }
+.main { flex: 1; padding: 24px; }
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.stat {
+    background: linear-gradient(135deg, #eff6ff, #ffffff);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+}
+.stat h3 { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+.stat strong { font-size: 24px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+th { background: #f8fafc; }
+form.inline { display: inline; }
+label { display: block; font-weight: 600; margin-bottom: 6px; }
+input[type=text], input[type=password], input[type=date], input[type=number], textarea, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #fff;
+}
+textarea { min-height: 100px; resize: vertical; }
+input[type=file] { width: 100%; padding: 8px 0; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.form-group { margin-bottom: 16px; }
+.btn {
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+}
+.btn.secondary { background: #334155; }
+.btn.success { background: var(--success); }
+.btn.warning { background: var(--warning); }
+.btn.danger { background: var(--danger); }
+.btn.light { background: #e2e8f0; color: #111827; }
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.badge.status-assigned, .badge.status-open { background: #dbeafe; color: #1d4ed8; }
+.badge.status-accepted { background: #ecfccb; color: #3f6212; }
+.badge.status-submitted { background: #fef3c7; color: #92400e; }
+.badge.status-approved, .badge.status-active { background: #dcfce7; color: #166534; }
+.badge.status-rejected, .badge.status-inactive, .badge.status-closed { background: #fee2e2; color: #991b1b; }
+.alert { padding: 12px 14px; border-radius: 10px; margin-bottom: 12px; }
+.alert.success { background: #dcfce7; color: #166534; }
+.alert.error { background: #fee2e2; color: #991b1b; }
+.alert.warning { background: #fef3c7; color: #92400e; }
+.kpi-bar { height: 10px; border-radius: 999px; background: #dbeafe; overflow: hidden; }
+.kpi-bar span { display: block; height: 100%; background: var(--primary); }
+.login-wrap { max-width: 420px; margin: 72px auto; }
+.muted { color: var(--muted); }
+.list-inline { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 900px) {
+    .layout { display: block; }
+    .sidebar { width: 100%; }
+}

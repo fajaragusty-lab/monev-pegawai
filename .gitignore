@@ -1,0 +1,10 @@
+/config/config.php
+/public/uploads/field-photos/*
+!/public/uploads/field-photos/.gitkeep
+/public/uploads/evidence/*
+!/public/uploads/evidence/.gitkeep
+/storage/*.log
+!/public/uploads/field-photos/sample-photo-1.png
+!/public/uploads/field-photos/sample-photo-2.png
+!/public/uploads/evidence/sample-evidence-1.pdf
+!/public/uploads/evidence/sample-evidence-2.pdf
